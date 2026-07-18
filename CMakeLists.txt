@@ -39,6 +39,15 @@ add_library(LumaKey MODULE
 
 target_link_libraries(LumaKey PRIVATE ffgl::sdk)
 
+# On Windows/Linux the SDK headers we include pull in <GL/glew.h>. The SDK links
+# GLEW privately, so we need it on this target too for the include path (and the
+# GLEW_STATIC define that the static vcpkg triplet propagates). macOS uses the
+# system OpenGL framework and needs none of this.
+if(NOT APPLE)
+    find_package(GLEW REQUIRED)
+    target_link_libraries(LumaKey PRIVATE GLEW::GLEW)
+endif()
+
 if(APPLE)
     set_target_properties(LumaKey PROPERTIES
         BUNDLE TRUE
