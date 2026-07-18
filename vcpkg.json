@@ -1,0 +1,11 @@
+{
+  "name": "resolume-luma-keyer",
+  "version-string": "1.0.0",
+  "description": "Dependencies for building the Luma Key FFGL plugin. GLEW is only needed on Windows; macOS uses the system OpenGL framework.",
+  "dependencies": [
+    {
+      "name": "glew",
+      "platform": "!osx"
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+name: release
+
+# Build the Luma Key FFGL plugin for the two platforms Resolume runs on:
+#   - macOS  -> universal (arm64 + x86_64) LumaKey.bundle
+#   - Windows -> x64 LumaKey.dll (GLEW static-linked via vcpkg)
+# Each ships as a zip; drop the bundle/dll into Resolume's "Extra Effects"
+# folder. Trigger manually (Actions > release > Run workflow) or by pushing a
+# v* tag.
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { name: macos-universal, os: macos-14,       artifact: LumaKey.bundle }
+          - { name: windows-x86_64,  os: windows-latest, artifact: LumaKey.dll }
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # --- macOS: no extra deps, universal build straight from CMake ---
+      - name: Configure (macOS)
+        if: runner.os == 'macOS'
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      # --- Windows: GLEW comes from vcpkg, static-linked (static-md keeps the
+      #     CRT dynamic so the plugin matches the host) so the .dll has no
+      #     external glew32.dll runtime dependency. ---
+      - name: Configure (Windows)
+        if: runner.os == 'Windows'
+        run: >
+          cmake -B build -A x64
+          -DCMAKE_BUILD_TYPE=Release
+          -DVCPKG_TARGET_TRIPLET=x64-windows-static-md
+          -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+
+      - name: Build
+        run: cmake --build build --config Release --parallel
+
+      - name: Derive version
+        id: ver
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            echo "version=${GITHUB_REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=0.0.0-dev.${GITHUB_RUN_NUMBER}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Collect artifact
+        shell: bash
+        run: |
+          mkdir -p out
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            cp -R "build/LumaKey.bundle" "out/LumaKey.bundle"
+            # Sanity-check the bundle really is universal and exports plugMain.
+            lipo -archs "out/LumaKey.bundle/Contents/MacOS/LumaKey"
+            nm -gU "out/LumaKey.bundle/Contents/MacOS/LumaKey" | grep -q "_plugMain"
+          else
+            cp "build/Release/LumaKey.dll" "out/LumaKey.dll"
+          fi
+          ls -R out
+
+      - name: Archive (zip)
+        shell: bash
+        run: |
+          cd out
+          if command -v 7z >/dev/null 2>&1; then
+            7z a "../luma-key-${{ matrix.name }}.zip" ./*
+          else
+            zip -r "../luma-key-${{ matrix.name }}.zip" ./*
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: luma-key-${{ matrix.name }}
+          path: '*.zip'
+          if-no-files-found: error
+
+  release:
+    name: Publish release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true
