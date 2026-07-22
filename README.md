@@ -9,6 +9,11 @@ transparent and let lower layers show through — a quick way to key black
 backgrounds, add-blend-style content, or shadow/highlight mattes without a
 dedicated key colour.
 
+![Before/after: colourful clip on a black background, and the same clip with the black keyed to transparency (soft edge) over a checkerboard](docs/demo-before-after.png)
+
+*Rendered with the plugin's exact shader math (Rec. 709 luma → `smoothstep` key)
+at the default Threshold 0.15 / Softness 0.10 — not a Resolume screen capture.*
+
 ## Parameters
 
 | Parameter   | Type   | Default | Description |
