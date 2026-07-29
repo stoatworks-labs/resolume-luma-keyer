@@ -33,6 +33,8 @@ add_subdirectory(external/ffgl EXCLUDE_FROM_ALL)
 # The plugin itself: a loadable macOS .bundle (MODULE library).
 # ---------------------------------------------------------------------------
 add_library(LumaKey MODULE
+    source/Diag.h
+    source/Diag.cpp
     source/LumaKey.h
     source/LumaKey.cpp
 )

@@ -1,4 +1,6 @@
 #include "LumaKey.h"
+
+#include "Diag.h"
 using namespace ffglex;
 
 enum ParamType : FFUInt32
@@ -87,20 +89,50 @@ LumaKey::LumaKey() :
 	SetParamInfof( PT_INVERT, "Invert", FF_TYPE_BOOLEAN );
 
 	FFGLLog::LogToHost( "Created Luma Key effect" );
+
+	lumakey::diag::init();
 }
+
+namespace
+{
+/// glGetString returns nullptr if there is no current context; feeding that to
+/// std::string is undefined behaviour, and a logging call must never be the
+/// thing that crashes the host.
+std::string glStringOrUnknown( GLenum name )
+{
+	const GLubyte* value = glGetString( name );
+	return value ? reinterpret_cast<const char*>( value ) : "unknown";
+}
+} // namespace
 
 FFResult LumaKey::InitGL( const FFGLViewportStruct* vp )
 {
+	// The GL strings first, and unconditionally: when a shader will not compile
+	// it is almost always the driver or the GL version, and knowing which
+	// machine reported what is the whole diagnosis.
+	lumakey::diag::info( std::string( "GL vendor=" ) + glStringOrUnknown( GL_VENDOR )
+						 + " renderer=" + glStringOrUnknown( GL_RENDERER )
+						 + " version=" + glStringOrUnknown( GL_VERSION ) );
+
 	if( !shader.Compile( _vertexShaderCode, _fragmentShaderCode ) )
 	{
+		// Returning FF_FAIL here is invisible to the operator: the effect
+		// simply does nothing in Resolume, with no message anywhere. This line
+		// is the only record that it was the shader.
+		lumakey::diag::error( "shader failed to compile - the effect will do nothing" );
+		FFGLLog::LogToHost( "Luma Key: shader failed to compile" );
 		DeInitGL();
 		return FF_FAIL;
 	}
 	if( !quad.Initialise() )
 	{
+		lumakey::diag::error( "quad geometry failed to initialise" );
+		FFGLLog::LogToHost( "Luma Key: quad geometry failed to initialise" );
 		DeInitGL();
 		return FF_FAIL;
 	}
+
+	lumakey::diag::info( "initialised" );
 
 	//Use base-class init as success result so that it retains the viewport.
 	return CFFGLPlugin::InitGL( vp );

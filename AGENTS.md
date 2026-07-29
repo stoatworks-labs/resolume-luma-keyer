@@ -69,3 +69,12 @@ pure black-background clip hides completely.
 ## 6. Conventions
 
 - Public repo. "Commit" means commit **and** push.
+
+## Diagnostics
+
+`source/Diag.{h,cpp}` is the smallest member of the fleet's `diag` family: a log file only.
+No crash handler (this runs inside Resolume) and no bundle command (an effect is three
+sliders in someone else's inspector). What it does cover is the failure that actually
+happens — `InitGL` returning `FF_FAIL` because a shader would not compile, which otherwise
+looks like 'the effect does nothing' with no message anywhere. The GL vendor/renderer/version
+strings are logged next to it, because that is almost always the reason.
