@@ -14,6 +14,38 @@ dedicated key colour.
 *Rendered with the plugin's exact shader math (Rec. 709 luma → `smoothstep` key)
 at the default Threshold 0.15 / Softness 0.10 — not a Resolume screen capture.*
 
+<!-- downloads:start -->
+
+## Download
+
+**[v1.0.1](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/tag/v1.0.1)** — prebuilt for macOS and Windows. Pick your platform:
+
+<details>
+<summary><b>macOS</b> — Universal (Apple Silicon + Intel)</summary>
+
+| Build | Download | Size |
+| --- | --- | --- |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.0.1-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.0.1/luma-key-1.0.1-macos-universal.dmg) | 162 KB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 126 KB |
+
+</details>
+
+<details>
+<summary><b>Windows</b> — x64</summary>
+
+| Build | Download | Size |
+| --- | --- | --- |
+| x64 · .exe installer | [`luma-key-1.0.1-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.0.1/luma-key-1.0.1-windows-x86_64-setup.exe) | 201 KB |
+| x64 · .zip archive | [`luma-key-windows-x86_64.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-windows-x86_64.zip) | 94 KB |
+
+</details>
+
+All builds, checksums and release notes: [github.com/stoatworks-labs/resolume-luma-keyer/releases](https://github.com/stoatworks-labs/resolume-luma-keyer/releases).
+
+These builds are unsigned, so macOS and Windows each warn once on first launch — see [Unsigned builds — macOS Gatekeeper & Windows SmartScreen](#unsigned-builds--macos-gatekeeper--windows-smartscreen) for the one-time fix.
+
+<!-- downloads:end -->
+
 ## Parameters
 
 | Parameter   | Type   | Default | Description |
@@ -100,6 +132,26 @@ and carries a small GLSL fragment shader. Per pixel it:
 
 To change the plugin's name or ID, edit the `CFFGLPluginInfo PluginInfo(...)`
 block near the top of `LumaKey.cpp` (the ID must be a unique 4-character string).
+
+## Unsigned builds — macOS Gatekeeper & Windows SmartScreen
+
+The released plugins are **not code-signed or notarized** — that needs paid Apple
+and Microsoft developer certificates this project doesn't carry. On macOS this bites
+harder than usual: a quarantined plugin makes your host **skip it or fail validation**
+rather than show a friendly prompt.
+
+- **macOS** — clear the quarantine flag after copying the bundle into place, then
+  rescan plugins in your host:
+
+  ```sh
+  xattr -dr com.apple.quarantine "/Library/Graphics/FreeFrame Plug-Ins/luma-key.bundle"
+  ```
+
+- **Windows** — plugin files aren't gated the way `.exe` files are, so your host loads
+  them normally. The **installer** trips SmartScreen: **More info** → **Run anyway**.
+
+Per-artifact steps, self-signing and checksum verification:
+**[docs/UNSIGNED.md](docs/UNSIGNED.md)**.
 
 ## Licence
 
