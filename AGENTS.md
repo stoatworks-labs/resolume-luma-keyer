@@ -15,7 +15,7 @@ from it, so dark — or bright — areas of a clip become transparent and let lo
 through. It's a quick way to key black backgrounds, handle add-blend-style content, or make
 shadow/highlight mattes without a dedicated key colour.
 
-C++/GLSL, CMake. Public repo. **Released v1.0.0.** Small: 11 tracked files.
+C++/GLSL, CMake. Public repo. **Released v1.0.1.** Small: 11 tracked files.
 
 ## 2. How an FFGL plugin is shaped
 

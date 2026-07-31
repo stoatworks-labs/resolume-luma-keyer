@@ -1,6 +1,6 @@
 # resolume-luma-keyer
 
-Luma keyer FFGL effect plugin for Resolume Arena/Avenue. C++/GLSL, CMake MODULE → universal `.bundle` (macOS) + Windows `.dll`. Public repo, released v1.0.0.
+Luma keyer FFGL effect plugin for Resolume Arena/Avenue. C++/GLSL, CMake MODULE → universal `.bundle` (macOS) + Windows `.dll`. Public repo, released v1.0.1.
 
 ## Commands (CMake)
 - Configure: `cmake -B build -DCMAKE_BUILD_TYPE=Release`
