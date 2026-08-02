@@ -144,7 +144,7 @@ rather than show a friendly prompt.
   rescan plugins in your host:
 
   ```sh
-  xattr -dr com.apple.quarantine "/Library/Graphics/FreeFrame Plug-Ins/luma-key.bundle"
+  xattr -dr com.apple.quarantine "$HOME/Documents/Resolume Arena/Extra Effects/LumaKey.bundle"
   ```
 
 - **Windows** — plugin files aren't gated the way `.exe` files are, so your host loads
