@@ -155,5 +155,5 @@ Per-artifact steps, self-signing and checksum verification:
 
 ## Licence
 
-The plugin source here is provided as-is. The bundled FFGL SDK under
-`external/ffgl/` retains its own Resolume licence — see `external/ffgl/LICENSE.md`.
+MIT — see [LICENSE](LICENSE). The bundled FFGL SDK under `external/ffgl/` retains
+its own Resolume licence — see `external/ffgl/LICENSE.md`.
