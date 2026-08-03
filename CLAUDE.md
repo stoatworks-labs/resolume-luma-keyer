@@ -5,7 +5,16 @@ Luma keyer FFGL effect plugin for Resolume Arena/Avenue. C++/GLSL, CMake MODULE 
 ## Commands (CMake)
 - Configure: `cmake -B build -DCMAKE_BUILD_TYPE=Release`
 - Build: `cmake --build build`
-- Output: FFGL `.bundle` (macOS, universal) / `.dll` (Windows).
+- Output: FFGL `.bundle` (macOS, universal) / `.dll` (Windows), plus the OpenFX
+  build `build/LumaKey.ofx.bundle` (target `LumaKeyOFX`, `-DBUILD_OFX=OFF` to skip).
+- OFX smoke test (uses the bridge's host):
+  `../resolume-ofx-bridge/build/ofxprobe --dir build --render com.stoatworks.lumakey`
+
+## OpenFX build
+- `source/ofx/LumaKeyOFX.cpp` is the same key on the CPU for Resolve/Nuke/Natron/Vegas;
+  the GLSL in `source/LumaKey.cpp` and the CPU math must key identically — edit both.
+- OFX SDK subset (C headers + Support library, BSD-3) vendored under `external/openfx`.
+- Install for Resolve: copy `LumaKey.ofx.bundle` into `/Library/OFX/Plugins`.
 
 ## Notes
 - FFGL plugin — the effect runs as GLSL in Resolume's render pipeline; the C++ side is the FFGL host glue.

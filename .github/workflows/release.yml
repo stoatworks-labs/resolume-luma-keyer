@@ -71,6 +71,19 @@ jobs:
           else
             cp "build/Release/LumaKey.dll" "out/LumaKey.dll"
           fi
+          # OpenFX build: shipped as its own zip, not folded into the FFGL
+          # artefact — it installs to the OFX folder, not Resolume's.
+          mkdir -p ofxout
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            cp -R "build/LumaKey.ofx.bundle" "ofxout/LumaKey.ofx.bundle"
+            lipo -archs "ofxout/LumaKey.ofx.bundle/Contents/MacOS/LumaKey.ofx"
+            nm -gU "ofxout/LumaKey.ofx.bundle/Contents/MacOS/LumaKey.ofx" | grep -q "_OfxGetPlugin"
+            codesign --force --sign - --timestamp=none "ofxout/LumaKey.ofx.bundle"
+          else
+            mkdir -p "ofxout/LumaKey.ofx.bundle/Contents/Win64"
+            cp "build/LumaKey.ofx.bundle/Contents/Win64/LumaKey.ofx" "ofxout/LumaKey.ofx.bundle/Contents/Win64/LumaKey.ofx"
+          fi
+          ls -R ofxout
           ls -R out
 
       - name: Archive (zip)
@@ -81,6 +94,12 @@ jobs:
             7z a "../luma-key-${{ matrix.name }}.zip" ./*
           else
             zip -r "../luma-key-${{ matrix.name }}.zip" ./*
+          fi
+          cd ../ofxout
+          if command -v 7z >/dev/null 2>&1; then
+            7z a "../luma-key-ofx-${{ matrix.name }}.zip" ./*
+          else
+            zip -r "../luma-key-ofx-${{ matrix.name }}.zip" ./*
           fi
 
       - name: Disk image (macOS)

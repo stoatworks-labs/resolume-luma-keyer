@@ -63,6 +63,21 @@ These builds are unsigned, so macOS and Windows each warn once on first launch �
 
 <!-- downloads:end -->
 
+## OpenFX — Resolve, Vegas, Nuke, Natron
+
+The same effect also builds as an OpenFX plugin, so it runs in DaVinci Resolve
+(Edit and Color pages, and Fusion), Vegas Pro, Nuke and Natron. It is
+the same key, byte for byte — the CPU maths mirrors the GLSL and is tested against it.
+
+Grab the `luma-key-ofx-*` zip for your platform from the release and copy
+`LumaKey.ofx.bundle` into the standard OpenFX folder, then restart the host:
+
+```
+macOS    /Library/OFX/Plugins/
+Windows  C:\Program Files\Common Files\OFX\Plugins\
+```
+
+
 ## Parameters
 
 | Parameter   | Type   | Default | Description |

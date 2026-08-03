@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 project(ResolumeLumaKey
-    VERSION 1.0.1
+    VERSION 1.1.0
     LANGUAGES CXX
 )
 
@@ -66,6 +66,61 @@ if(APPLE)
         "-framework Carbon"
         "-framework AppKit"
     )
+endif()
+
+# ---------------------------------------------------------------------------
+# The OpenFX build of the same effect, for Resolve/Nuke/Natron/Vegas. CPU
+# render against the vendored OFX SDK subset under external/openfx (C headers
+# + the official C++ Support library, BSD-3 — see external/openfx/LICENSE.md).
+# ---------------------------------------------------------------------------
+option(BUILD_OFX "Build the OpenFX plugin" ON)
+
+if(BUILD_OFX)
+    set(OFX_SDK "${CMAKE_CURRENT_SOURCE_DIR}/external/openfx")
+
+    add_library(LumaKeyOFX MODULE
+        source/ofx/LumaKeyOFX.cpp
+        ${OFX_SDK}/Support/Library/ofxsCore.cpp
+        ${OFX_SDK}/Support/Library/ofxsImageEffect.cpp
+        ${OFX_SDK}/Support/Library/ofxsInteract.cpp
+        ${OFX_SDK}/Support/Library/ofxsLog.cpp
+        ${OFX_SDK}/Support/Library/ofxsMultiThread.cpp
+        ${OFX_SDK}/Support/Library/ofxsParams.cpp
+        ${OFX_SDK}/Support/Library/ofxsProperty.cpp
+        ${OFX_SDK}/Support/Library/ofxsPropertyValidation.cpp
+    )
+    target_include_directories(LumaKeyOFX PRIVATE
+        "${OFX_SDK}/include"
+        "${OFX_SDK}/Support/include"
+    )
+    target_compile_definitions(LumaKeyOFX PRIVATE
+        PLUGIN_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
+        PLUGIN_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+    )
+
+    # An OFX plugin is not a macOS .bundle in the CMake sense: hosts expect the
+    # fixed layout <Name>.ofx.bundle/Contents/<arch>/<Name>.ofx, assembled here
+    # by hand. "MacOS" is the OFX architecture name for universal binaries.
+    set(OFX_BUNDLE_DIR "${CMAKE_BINARY_DIR}/LumaKey.ofx.bundle")
+    set_target_properties(LumaKeyOFX PROPERTIES
+        PREFIX ""
+        SUFFIX ".ofx"
+        OUTPUT_NAME "LumaKey"
+        LIBRARY_OUTPUT_DIRECTORY "${OFX_BUNDLE_DIR}/Contents/MacOS"
+    )
+    if(APPLE)
+        configure_file(cmake/InfoOFX.plist.in
+            "${OFX_BUNDLE_DIR}/Contents/Info.plist" @ONLY)
+    elseif(WIN32)
+        set_target_properties(LumaKeyOFX PROPERTIES
+            LIBRARY_OUTPUT_DIRECTORY "${OFX_BUNDLE_DIR}/Contents/Win64"
+            RUNTIME_OUTPUT_DIRECTORY "${OFX_BUNDLE_DIR}/Contents/Win64"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${OFX_BUNDLE_DIR}/Contents/Win64"
+            RUNTIME_OUTPUT_DIRECTORY_RELEASE "${OFX_BUNDLE_DIR}/Contents/Win64")
+    else()
+        set_target_properties(LumaKeyOFX PROPERTIES
+            LIBRARY_OUTPUT_DIRECTORY "${OFX_BUNDLE_DIR}/Contents/Linux-x86-64")
+    endif()
 endif()
 
 # ---------------------------------------------------------------------------
