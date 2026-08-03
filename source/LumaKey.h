@@ -2,6 +2,8 @@
 #include <string>
 #include <FFGLSDK.h>
 
+#include "StoatworksAboutParams.h"
+
 // A simple luminance keyer effect for Resolume Arena / Avenue.
 //
 // It computes the perceptual luminance of each pixel and drives its alpha
@@ -20,6 +22,7 @@ public:
 
 	FFResult SetFloatParameter( unsigned int dwIndex, float value ) override;
 	float GetFloatParameter( unsigned int index ) override;
+	char* GetTextParameter( unsigned int index ) override;
 
 private:
 	ffglex::FFGLShader shader;  //!< Compiles and links the keyer shader program.
@@ -28,4 +31,8 @@ private:
 	float threshold;//!< Luma level at the centre of the key edge (0..1).
 	float softness; //!< Width of the soft edge around the threshold (0..1).
 	float invert;   //!< 0 = key out darks, 1 = key out brights.
+
+	/// GetTextParameter hands the host a bare pointer, so the string has to
+	/// outlive the call. See StoatworksAboutParams.h.
+	std::string aboutText;
 };

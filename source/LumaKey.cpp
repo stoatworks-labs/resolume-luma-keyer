@@ -7,7 +7,12 @@ enum ParamType : FFUInt32
 {
 	PT_THRESHOLD,
 	PT_SOFTNESS,
-	PT_INVERT
+	PT_INVERT,
+
+	//About. FFGL has no window, so the name, the version and the links are
+	//parameters the host draws. See StoatworksAboutParams.h.
+	PT_ABOUT_FIRST,
+	PT_COUNT = PT_ABOUT_FIRST + stoatworks::about::kParamCount
 };
 
 static CFFGLPluginInfo PluginInfo(
@@ -87,6 +92,15 @@ LumaKey::LumaKey() :
 	SetParamInfof( PT_THRESHOLD, "Threshold", FF_TYPE_STANDARD );
 	SetParamInfof( PT_SOFTNESS, "Softness", FF_TYPE_STANDARD );
 	SetParamInfof( PT_INVERT, "Invert", FF_TYPE_BOOLEAN );
+
+	// The About block. Inline rather than through a helper: SetParamInfo is
+	// protected on CFFGLPlugin, so nothing outside the class can call it.
+	SetParamInfo( PT_ABOUT_FIRST, "About", FF_TYPE_TEXT, "" );
+	{
+		FFUInt32 aboutId = PT_ABOUT_FIRST + 1;
+		for( const auto& b : stoatworks::about::buttons() )
+			SetParamInfo( aboutId++, b.label, FF_TYPE_EVENT, false );
+	}
 
 	FFGLLog::LogToHost( "Created Luma Key effect" );
 
@@ -177,6 +191,11 @@ FFResult LumaKey::DeInitGL()
 
 FFResult LumaKey::SetFloatParameter( unsigned int dwIndex, float value )
 {
+	// An About button is a press, not a value to keep: it opens a browser and
+	// nothing about the effect changes.
+	if( dwIndex >= PT_ABOUT_FIRST )
+		return stoatworks::about::handleParam( dwIndex - PT_ABOUT_FIRST, value ) ? FF_SUCCESS : FF_FAIL;
+
 	switch( dwIndex )
 	{
 	case PT_THRESHOLD:
@@ -209,4 +228,17 @@ float LumaKey::GetFloatParameter( unsigned int index )
 	}
 
 	return 0.0f;
+}
+
+char* LumaKey::GetTextParameter( unsigned int index )
+{
+	// The host is handed a bare pointer, so the string is kept as a member
+	// rather than built on the stack here.
+	if( index == PT_ABOUT_FIRST )
+	{
+		aboutText = stoatworks::about::textParam( 0 );
+		return const_cast< char* >( aboutText.c_str() );
+	}
+
+	return CFFGLPlugin::GetTextParameter( index );
 }
