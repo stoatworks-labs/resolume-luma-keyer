@@ -14,8 +14,6 @@ dedicated key colour.
 *Rendered with the plugin's exact shader math (Rec. 709 luma → `smoothstep` key)
 at the default Threshold 0.15 / Softness 0.10 — not a Resolume screen capture.*
 
-<!-- downloads:start -->
-
 ## Try it in your browser
 
 **<https://resolume-luma-keyer-demo.stoatworks-labs.com>**
@@ -32,6 +30,8 @@ GLSL ES 3.00 is not desktop GL 4.1 core, and nothing on that page measures
 anything. The page says all of that itself, in a disclosure at the foot. The
 numbers worth trusting are in [Status](#status) and come from the offline
 harness in this repository.
+
+<!-- downloads:start -->
 
 ## Download
 
