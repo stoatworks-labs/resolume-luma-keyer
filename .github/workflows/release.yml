@@ -83,6 +83,20 @@ jobs:
             mkdir -p "ofxout/LumaKey.ofx.bundle/Contents/Win64"
             cp "build/LumaKey.ofx.bundle/Contents/Win64/LumaKey.ofx" "ofxout/LumaKey.ofx.bundle/Contents/Win64/LumaKey.ofx"
           fi
+          # Adobe (After Effects / Premiere) build: Rust on the
+          # after-effects crate, no Adobe SDK involved. Ships as its own zip;
+          # one install into the shared MediaCore folder serves both hosts.
+          mkdir -p adobeout
+          if [ "${{ runner.os }}" = "macOS" ]; then
+            ( cd adobe && ./bundle.sh release )
+            cp -R "adobe/target/release/LumaKey.plugin" "adobeout/LumaKey.plugin"
+            lipo -archs "adobeout/LumaKey.plugin/Contents/MacOS/LumaKey"
+            nm -gU "adobeout/LumaKey.plugin/Contents/MacOS/LumaKey" | grep "_EffectMain" >/dev/null
+          else
+            ( cd adobe && cargo build --release )
+            cp "adobe/target/release/lumakey_adobe.dll" "adobeout/LumaKey.aex"
+          fi
+          ls -R adobeout
           ls -R ofxout
           ls -R out
 
@@ -100,6 +114,12 @@ jobs:
             7z a "../luma-key-ofx-${{ matrix.name }}.zip" ./*
           else
             zip -r "../luma-key-ofx-${{ matrix.name }}.zip" ./*
+          fi
+          cd ../adobeout
+          if command -v 7z >/dev/null 2>&1; then
+            7z a "../luma-key-adobe-${{ matrix.name }}.zip" ./*
+          else
+            zip -r "../luma-key-adobe-${{ matrix.name }}.zip" ./*
           fi
 
       - name: Disk image (macOS)

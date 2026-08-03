@@ -65,6 +65,21 @@ These builds are unsigned, so macOS and Windows each warn once on first launch �
 
 <!-- downloads:end -->
 
+## After Effects & Premiere Pro — beta
+
+The same key also builds as an After Effects plugin, which Premiere Pro loads
+too. Grab the `luma-key-adobe-*` zip for your platform from the release and
+copy the plugin into the shared Adobe folder, then restart the host:
+
+```
+macOS    /Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/   (LumaKey.plugin)
+Windows  C:\Program Files\Adobe\Common\Plug-ins\7.0\MediaCore\            (LumaKey.aex)
+```
+
+It appears under Effects → Stoatworks → Luma Key. Beta because it is the
+newest of the builds: the maths is the same and the bundle is verified, but it
+has had less time in real hosts than the FFGL and OpenFX builds have.
+
 ## OpenFX — Resolve, Vegas, Nuke, Natron
 
 The same effect also builds as an OpenFX plugin, so it runs in DaVinci Resolve
