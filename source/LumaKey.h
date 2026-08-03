@@ -23,6 +23,7 @@ public:
 	FFResult SetFloatParameter( unsigned int dwIndex, float value ) override;
 	float GetFloatParameter( unsigned int index ) override;
 	char* GetTextParameter( unsigned int index ) override;
+	FFResult SetTextParameter( unsigned int index, const char* value ) override;
 
 private:
 	ffglex::FFGLShader shader;  //!< Compiles and links the keyer shader program.
