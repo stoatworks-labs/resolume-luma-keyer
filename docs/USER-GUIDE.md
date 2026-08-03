@@ -99,6 +99,18 @@ is the usual failure of a naive luma key.
 
 ---
 
+## Audio reactivity
+
+Both controls are plain floats, so Resolume can drive them from its own audio analysis — the
+dropdown beside the parameter, then **FFT**, a band and a gain.
+
+**Threshold** on the low band is a genuinely useful trick: the key *opens with the music*, so a
+bright graphic over a clip appears on the hits and sinks back between them. Set Threshold so the
+graphic is just barely keyed out at silence, and let the FFT push it over. A little **Softness**
+keeps the arrival from strobing.
+
+---
+
 ## Troubleshooting
 
 | Symptom | Cause |
