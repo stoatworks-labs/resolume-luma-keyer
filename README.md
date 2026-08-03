@@ -16,6 +16,23 @@ at the default Threshold 0.15 / Softness 0.10 — not a Resolume screen capture.
 
 <!-- downloads:start -->
 
+## Try it in your browser
+
+**<https://resolume-luma-keyer-demo.stoatworks-labs.com>**
+
+Not the plugin — the GLSL from `source/LumaKey.cpp`, copied across unedited and run in
+WebGL2 over clips generated in the page, with the parameters this plugin's
+constructor declares and the conversions its own code applies. No install, and
+nothing you load leaves your machine.
+
+Drag Threshold and Softness over a few clips and watch the key move, with the transparency composited over a checkerboard so you can see exactly what is being taken out.
+
+It is a port, so it is not evidence about the plugin: a browser is not Resolume,
+GLSL ES 3.00 is not desktop GL 4.1 core, and nothing on that page measures
+anything. The page says all of that itself, in a disclosure at the foot. The
+numbers worth trusting are in [Status](#status) and come from the offline
+harness in this repository.
+
 ## Download
 
 **[v1.0.1](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/tag/v1.0.1)** — prebuilt for macOS and Windows. Pick your platform:
