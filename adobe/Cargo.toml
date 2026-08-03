@@ -1,0 +1,18 @@
+[package]
+name = "lumakey-adobe"
+version = "1.1.1"
+edition = "2021"
+license = "MIT"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+after-effects = { git = "https://github.com/AdrianEddy/after-effects", rev = "a393dc2aabc6ff2bd25911b36160ff5165e39cad" }
+
+[build-dependencies]
+pipl = { git = "https://github.com/AdrianEddy/after-effects", rev = "a393dc2aabc6ff2bd25911b36160ff5165e39cad" }
+
+[profile.release]
+lto = true

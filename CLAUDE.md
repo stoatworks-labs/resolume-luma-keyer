@@ -10,6 +10,23 @@ Luma keyer FFGL effect plugin for Resolume Arena/Avenue. C++/GLSL, CMake MODULE 
 - OFX smoke test (uses the bridge's host):
   `../resolume-ofx-bridge/build/ofxprobe --dir build --render com.stoatworks.lumakey`
 
+## After Effects / Premiere build (adobe/)
+- Rust, on the `after-effects` crate (pinned git rev) — no Adobe SDK download,
+  the crate ships pre-generated bindings and an AE plugin links against nothing.
+- Build + bundle: `cd adobe && ./bundle.sh` (debug) or `./bundle.sh release`
+  (universal `target/release/LumaKey.plugin`).
+- Install (needs sudo — both Adobe plugin folders are root-owned):
+  `sudo cp -R adobe/target/release/LumaKey.plugin "/Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/"`
+  — that one folder serves BOTH After Effects and Premiere.
+- In-host test (AE must be running): `adobe/test/smoke.jsx` via
+  `osascript -e 'tell application "Adobe After Effects 2026" to DoScriptFile ...'`,
+  then inspect /tmp/lumakey-ae-smoke.png (dark half red, bright half grey).
+- The key maths now has THREE homes: the GLSL, the OFX C++, and adobe/src/lib.rs.
+  Edit one, edit all three.
+- Match name `STWK Luma Key` is the serialisation key — never change it.
+- Premiere's legacy render path is BGRA where AE's is ARGB; the luminance
+  weights are swapped when the host reports PrMr. See lib.rs.
+
 ## OpenFX build
 - `source/ofx/LumaKeyOFX.cpp` is the same key on the CPU for Resolve/Nuke/Natron/Vegas;
   the GLSL in `source/LumaKey.cpp` and the CPU math must key identically — edit both.
