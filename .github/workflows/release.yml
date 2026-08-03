@@ -77,7 +77,7 @@ jobs:
           if [ "${{ runner.os }}" = "macOS" ]; then
             cp -R "build/LumaKey.ofx.bundle" "ofxout/LumaKey.ofx.bundle"
             lipo -archs "ofxout/LumaKey.ofx.bundle/Contents/MacOS/LumaKey.ofx"
-            nm -gU "ofxout/LumaKey.ofx.bundle/Contents/MacOS/LumaKey.ofx" | grep -q "_OfxGetPlugin"
+            nm -gU "ofxout/LumaKey.ofx.bundle/Contents/MacOS/LumaKey.ofx" | grep "_OfxGetPlugin" >/dev/null
             codesign --force --sign - --timestamp=none "ofxout/LumaKey.ofx.bundle"
           else
             mkdir -p "ofxout/LumaKey.ofx.bundle/Contents/Win64"
