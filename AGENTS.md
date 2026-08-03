@@ -7,15 +7,21 @@ holds the short command reference; this file explains the model and the traps.
 
 ## 1. What this is
 
-A **luminance keyer effect plugin for Resolume Arena / Avenue**, built on the official
-Resolume **FFGL** SDK.
+A **luminance keyer effect plugin**, born for Resolume Arena / Avenue on the official
+Resolume **FFGL** SDK — and since v1.1/v1.2 also shipping as an **OpenFX** plugin (Resolve,
+Vegas, Nuke, Natron; `source/ofx/`) and an **After Effects / Premiere** plugin (`adobe/`,
+Rust on the `after-effects` crate — no Adobe SDK involved; see CLAUDE.md for why).
 
 It measures each pixel's perceptual (**Rec. 709**) luminance and drives that pixel's alpha
 from it, so dark — or bright — areas of a clip become transparent and let lower layers show
 through. It's a quick way to key black backgrounds, handle add-blend-style content, or make
 shadow/highlight mattes without a dedicated key colour.
 
-C++/GLSL, CMake. Public repo. **Released v1.0.1.** Small: 11 tracked files.
+**The key maths lives three times** — the GLSL, the OFX C++, the Rust — ten lines each,
+all marked. Change one, change all three. There is no shared core on purpose: the maths is
+smaller than any FFI machinery that would unify it.
+
+C++/GLSL + Rust, CMake + cargo. Public repo.
 
 ## 2. How an FFGL plugin is shaped
 
