@@ -203,6 +203,10 @@ step and no failed validation. The Windows builds are not code-signed.
 Per-artifact steps, self-signing and checksum verification:
 **[docs/UNSIGNED.md](docs/UNSIGNED.md)**.
 
+<!-- attributions:start -->
+This project is built on other people's work — see [ATTRIBUTIONS.md](ATTRIBUTIONS.md).
+<!-- attributions:end -->
+
 ## Licence
 
 MIT — see [LICENSE](LICENSE). The bundled FFGL SDK under `external/ffgl/` retains
