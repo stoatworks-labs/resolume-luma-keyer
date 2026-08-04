@@ -48,10 +48,10 @@ harness in this repository.
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.2.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.2.0/luma-key-1.2.0-macos-universal.dmg) | 166 KB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 128 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 337 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 200 KB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.2.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.2.0/luma-key-1.2.0-macos-universal.dmg) | 186 KB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 144 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 354 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 212 KB |
 
 </details>
 
@@ -69,7 +69,7 @@ harness in this repository.
 
 All builds, checksums and release notes: [github.com/stoatworks-labs/resolume-luma-keyer/releases](https://github.com/stoatworks-labs/resolume-luma-keyer/releases).
 
-The Windows builds are unsigned, so SmartScreen warns once — see [Unsigned builds — macOS Gatekeeper & Windows SmartScreen](#unsigned-builds--macos-gatekeeper--windows-smartscreen) for the one-time click-through.
+The Windows builds are unsigned, so SmartScreen warns once — see [Windows SmartScreen](#windows-smartscreen) for the one-time click-through.
 
 <!-- downloads:end -->
 
