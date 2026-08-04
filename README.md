@@ -1,5 +1,11 @@
 # Luma Key — Resolume FFGL plugin
 
+> **AI-assisted project.** This codebase was created with [Claude](https://claude.com/claude-code)
+> (Anthropic), directed and reviewed by a human author. It is a small plugin —
+> one GLSL fragment shader whose whole method is written out in
+> [How it works](#how-it-works), so you can read what it does to a pixel rather
+> than take it on trust. Try it in your browser before installing anything.
+
 A simple luminance keyer effect for [Resolume](https://resolume.com) Arena / Avenue,
 built on the official [Resolume FFGL SDK](https://github.com/resolume/ffgl).
 
