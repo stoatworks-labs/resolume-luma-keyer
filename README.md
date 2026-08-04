@@ -190,20 +190,13 @@ and carries a small GLSL fragment shader. Per pixel it:
 To change the plugin's name or ID, edit the `CFFGLPluginInfo PluginInfo(...)`
 block near the top of `LumaKey.cpp` (the ID must be a unique 4-character string).
 
-## Unsigned builds — macOS Gatekeeper & Windows SmartScreen
+## Windows SmartScreen
 
-The released plugins are **not code-signed or notarized** — that needs paid Apple
-and Microsoft developer certificates this project doesn't carry. On macOS this bites
-harder than usual: a quarantined plugin makes your host **skip it or fail validation**
-rather than show a friendly prompt.
+The released macOS plugins — FFGL, OFX and the Adobe build — are **Developer
+ID-signed and notarised by Apple**, so your host loads them with no quarantine
+step and no failed validation. The Windows builds are not code-signed.
 
-- **macOS** — clear the quarantine flag after copying the bundle into place, then
-  rescan plugins in your host:
-
-  ```sh
-  xattr -dr com.apple.quarantine "$HOME/Documents/Resolume Arena/Extra Effects/LumaKey.bundle"
-  ```
-
+- **macOS** — nothing to do. Copy the bundle into place and rescan.
 - **Windows** — plugin files aren't gated the way `.exe` files are, so your host loads
   them normally. The **installer** trips SmartScreen: **More info** → **Run anyway**.
 
