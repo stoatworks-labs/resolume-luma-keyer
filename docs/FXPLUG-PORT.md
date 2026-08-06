@@ -138,10 +138,15 @@ existing use of the effect silently detaches from its values. Generate the UUIDs
 once, record them here, and never regenerate — not on a rename, not on a version
 bump, and above all not when copying `Info.plist.in` to the next plugin.
 
+The **group UUID is deliberately the same in every plugin** — that is what puts
+them together under one Stoatworks heading in the effects browser instead of
+scattering them. The per-plugin UUID is the one that must be fresh each time.
+
 | plugin | group UUID | plugin UUID |
 |---|---|---|
 | Stoatworks (group) | `644CD859-14B1-4916-BC95-9E9588A611C3` | — |
 | Luma Key | ↑ | `9ADADFC3-3F5F-4E72-A580-9ED70F709D33` |
+| Porthole | ↑ | `C5816BBC-E280-4C2E-8AC2-4DAF27144C78` |
 
 ## 6. Packaging
 
@@ -186,9 +191,10 @@ straight in.
   simply never appears in `pluginkit -m -p FxPlug`, with no error anywhere.
   Motion's own `Contents/PlugIns/InternalFiltersXPC.pluginkit` is the reference.
 - **Copying the app into /Applications does not register it.** Measured: the
-  service appears only after the wrapper app is launched once, or after an
-  explicit `pluginkit -a`. This is why the wrapper is not an empty app — running
-  it *is* the install step, and its alert says so.
+  service appears only after the wrapper app is **launched once**. `pluginkit -a`
+  looked like it worked for the first plugin and then did nothing at all for the
+  second, so do not rely on it — launching is the step that actually works, which
+  is why the wrapper is not an empty app and its alert says so.
 - **CMake escapes quotes into compiler flags.** `-F"${PATH}"` reaches clang as
   `-F\"...\"` and it looks for a directory whose name starts with a quote. Pass
   the path unquoted.
@@ -227,6 +233,25 @@ progressively), half-float round-tripping, mixed source/destination layouts, and
 the key's direction. It does **not** cover the FxPlug plumbing around it —
 parameters, `pluginState`, tile negotiation. Only a host shows those.
 
+## 7b. Effects that read outside their tile
+
+Luma Key reads exactly the pixel under each output pixel, so it tiles freely.
+Most of the rest do not, and the difference is three things:
+
+- `properties:` sets `kFxPropertyKey_NeedsFullBuffer` to `@YES`.
+- `-sourceTileRect:...` returns the source's **`imagePixelBounds`**, not the
+  destination tile. Returning the matching tile samples black wherever the
+  effect reaches beyond it.
+- The render places output pixels by their position in the **full image**
+  (`tilePixelBounds` minus `imagePixelBounds` gives the tile's origin), because
+  the effect is defined over the whole picture. NeedsFullBuffer usually means
+  the tile *is* the image, but nothing guarantees it.
+
+Porthole is the worked example, and `testTiledMatchesWhole` is the guard: render
+one frame whole, render it again as four strips, require the two to be
+byte-identical. A tile-origin mistake tears the picture at tile boundaries in
+the host and is invisible everywhere else.
+
 ## 8. Order of work
 
 1. ~~SDK in place~~ — done, `/Library/Developer/SDKs/FxPlug.sdk`.
@@ -236,10 +261,12 @@ parameters, `pluginState`, tile negotiation. Only a host shows those.
    packaging unknown.
 4. **A keyed frame out of Motion or FCP, compared against `ofxprobe`** — the
    current step. Nothing may be claimed publicly before this holds.
-5. The six remaining plain filters, which should be mechanical.
-6. The four generators (second `ProPlugPlugInList` entry each).
-7. tinsel and old-cathode — temporal access is the one genuinely new API.
-8. Public format list — website suite copy, READMEs, guides — updated once step 4
+5. ~~porthole~~ — done, and it settled the full-buffer pattern in §7b.
+6. The five remaining plain filters: asciify, nesolume, idler, downpour,
+   flipbook (the last three as filters first; their generators come later).
+7. The four generators (second `ProPlugPlugInList` entry each).
+8. tinsel and old-cathode — temporal access is the one genuinely new API.
+9. Public format list — website suite copy, READMEs, guides — updated once step 4
    holds, mirroring how After Effects is currently worded as rolling out.
 
 ## 9. Open gaps, stated plainly
