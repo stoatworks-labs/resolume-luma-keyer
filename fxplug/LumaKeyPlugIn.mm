@@ -43,7 +43,7 @@ enum {
 };
 
 // The pixel work lives in LumaKeyTile.h so it can be tested without a host.
-using lumakey::Layout;
+using fxsurface::Layout;
 using lumakey::TileState;
 
 namespace {

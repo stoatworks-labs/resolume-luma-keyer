@@ -204,9 +204,17 @@ straight in.
 ## 7a. Testing without a host
 
 `renderDestinationImage:` can only be called by Motion or FCP, so anything left
-inside it is untestable. The pixel work therefore lives in `LumaKeyTile.h` —
-bare pointers, strides and layouts — and `fxplug/test/tiletest.cpp` drives it
-directly. It needs neither the SDK nor a running host:
+inside it is untestable. The pixel work therefore lives outside it, in two files,
+and `fxplug/test/tiletest.cpp` drives them directly with neither the SDK nor a
+running host:
+
+- **`fxplug/FxSurface.h`** — the pixel layouts and nothing about the effect.
+  Identical in every plugin, so **copy it verbatim** to the next port. There is
+  no build-time link between the copies, so a fix here has to be carried out by
+  hand; keep it worth copying by keeping it plugin-agnostic.
+- **`fxplug/<Name>Tile.h`** — the per-plugin loop over bare pointers, strides and
+  layouts, calling the shared core.
+
 
 ```bash
 cmake --build build-fxplug --target lumakey-tiletest && ./build-fxplug/fxplug/lumakey-tiletest
