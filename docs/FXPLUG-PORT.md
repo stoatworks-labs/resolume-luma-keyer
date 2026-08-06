@@ -147,6 +147,7 @@ scattering them. The per-plugin UUID is the one that must be fresh each time.
 | Stoatworks (group) | `644CD859-14B1-4916-BC95-9E9588A611C3` | — |
 | Luma Key | ↑ | `9ADADFC3-3F5F-4E72-A580-9ED70F709D33` |
 | Porthole | ↑ | `C5816BBC-E280-4C2E-8AC2-4DAF27144C78` |
+| Asciify | ↑ | `7AE6E299-34C8-4DF7-AF99-C5A7CE8E1307` |
 
 ## 6. Packaging
 
@@ -262,11 +263,17 @@ the host and is invisible everywhere else.
 4. **A keyed frame out of Motion or FCP, compared against `ofxprobe`** — the
    current step. Nothing may be claimed publicly before this holds.
 5. ~~porthole~~ — done, and it settled the full-buffer pattern in §7b.
-6. The five remaining plain filters: asciify, nesolume, idler, downpour,
-   flipbook (the last three as filters first; their generators come later).
-7. The four generators (second `ProPlugPlugInList` entry each).
-8. tinsel and old-cathode — temporal access is the one genuinely new API.
-9. Public format list — website suite copy, READMEs, guides — updated once step 4
+6. ~~asciify~~ — done, and it settled how a **string parameter** crosses the
+   pluginState boundary: a fixed-size char array, truncating rather than
+   overrunning, because the blob is raw bytes and cannot carry a `std::string`.
+   It also showed that derived state which depends on the SOURCE PIXELS (here
+   the cell grid) is rebuilt per render rather than carried in pluginState —
+   pluginState only ever sees parameters.
+7. The four remaining plain filters: nesolume, idler, downpour, flipbook (the
+   last three as filters first; their generators come later).
+8. The four generators (second `ProPlugPlugInList` entry each).
+9. tinsel and old-cathode — temporal access is the one genuinely new API.
+10. Public format list — website suite copy, READMEs, guides — updated once step 4
    holds, mirroring how After Effects is currently worded as rolling out.
 
 ## 9. Open gaps, stated plainly
