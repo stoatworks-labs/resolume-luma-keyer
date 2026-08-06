@@ -4,16 +4,35 @@ Final Cut Pro and Motion, via Apple's FxPlug 4 API. Luma Keyer is the
 pipe-cleaner; the other nine follow the pattern settled here, exactly as they did
 for OpenFX.
 
-**Status:** the Luma Key build compiles universal, signs, installs, is registered
-by the system, **appears in the effects browser of both Motion and Final Cut
-Pro**, and **both hosts have launched its XPC service** — so the plug-in is
-instantiating and answering `addParametersWithError:` / `properties:error:` in
-each of them, with nothing in the log. The pixel loop is covered by a host-free
-test (`fxplug/test/tiletest.cpp`, 18 checks).
+**Status — read this before believing anything else here.**
 
-What remains unconfirmed is the **picture** — nobody has yet compared a keyed
-frame out of Motion or FCP against the OpenFX reference. Don't claim the render
-until that holds.
+Three plugins are built: Luma Key, Porthole, Asciify. All three compile universal,
+sign, install, and **register** — `pluginkit -m -p FxPlug` lists them, and Final
+Cut Pro **launches all three XPC services at startup**, so it is loading and
+querying them.
+
+**None of them appear in Final Cut Pro's Effects browser.** Verified by driving
+FCP directly: searching "Porthole" returns 0 items, "Stoatworks" returns 0 items,
+and "Luma" returns exactly one — Apple's own *Luma Keyer*, not our *Luma Key*.
+
+An earlier version of this document claimed they were listed in both Motion and
+FCP. That came from a second-hand confirmation and was wrong for FCP. Keep the
+three claims separate, because they fail separately:
+
+1. **Registers** — true, `pluginkit` lists it.
+2. **Listed in the host's browser** — FALSE in FCP. Unverified in Motion.
+3. **Renders correctly** — untested, and cannot be tested until (2) holds.
+
+The pixel work is covered by host-free tests in each repo, so the maths and the
+surface handling are not the suspects. What is unproven is the registration
+contract between the bundle and FCP.
+
+Unresolved at time of writing: FCP was restarted to rule out a cached effect
+list, but it sits for many minutes in "Scanning Audio Units" (1710 on this
+machine) before its main window appears. If a rescan is not the answer, the
+suspects are the `PlugInKit` / `ProPlugPlugInList` declaration needing more than
+Apple's own FxPlug 4 Xcode template provides, or FCP requiring a different
+registration path from Motion.
 
 Everything below is measured on this machine unless it says otherwise.
 
