@@ -129,6 +129,21 @@ if(BUILD_OFX)
 endif()
 
 # ---------------------------------------------------------------------------
+# The FxPlug 4 build, for Final Cut Pro and Motion (macOS only, and only where
+# Apple's SDK is installed — it is a login-gated download that cannot be
+# vendored, so this is OFF by default and CI cannot build it).
+# See docs/FXPLUG-PORT.md.
+# ---------------------------------------------------------------------------
+option(BUILD_FXPLUG "Build the FxPlug plugin for Final Cut Pro and Motion" OFF)
+
+if(BUILD_FXPLUG)
+    if(NOT APPLE)
+        message(FATAL_ERROR "BUILD_FXPLUG is macOS only.")
+    endif()
+    add_subdirectory(fxplug)
+endif()
+
+# ---------------------------------------------------------------------------
 # `cmake --install` (or --target install) drops the bundle straight into the
 # user's Resolume plugin folder. Override with -DCMAKE_INSTALL_PREFIX=...
 # ---------------------------------------------------------------------------

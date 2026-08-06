@@ -21,11 +21,29 @@ Luma keyer FFGL effect plugin for Resolume Arena/Avenue. C++/GLSL, CMake MODULE 
 - In-host test (AE must be running): `adobe/test/smoke.jsx` via
   `osascript -e 'tell application "Adobe After Effects 2026" to DoScriptFile ...'`,
   then inspect /tmp/lumakey-ae-smoke.png (dark half red, bright half grey).
-- The key maths now has THREE homes: the GLSL, the OFX C++, and adobe/src/lib.rs.
-  Edit one, edit all three.
+- The key maths has FOUR host builds but only THREE hand-synced homes: the GLSL
+  in source/LumaKey.cpp, adobe/src/lib.rs, and `source/LumaKeyCore.h` — which the
+  OpenFX **and** FxPlug builds both call, so those two cannot drift. Edit the
+  GLSL, edit the Rust, edit the core.
 - Match name `STWK Luma Key` is the serialisation key — never change it.
 - Premiere's legacy render path is BGRA where AE's is ARGB; the luminance
   weights are swapped when the host reports PrMr. See lib.rs.
+
+## Final Cut Pro / Motion build (fxplug/)
+- Apple's FxPlug 4. **`docs/FXPLUG-PORT.md` is the pattern doc** — read it before
+  porting the next plugin; it holds the UUID registry and the trap list.
+- Needs Apple's SDK at `/Library/Developer/SDKs/FxPlug.sdk` (login-gated, **not
+  redistributable — CI cannot build this**). Off by default:
+  `cmake -B build-fxplug -DBUILD_FXPLUG=ON -DCMAKE_BUILD_TYPE=Release && cmake --build build-fxplug`
+- Sign (**mandatory** — an unsigned FxPlug plugin does not load, so
+  `docs/UNSIGNED.md` does NOT apply here):
+  `./fxplug/sign.sh "build-fxplug/Stoatworks Luma Key.app"`
+- Install: copy the .app to /Applications **and launch it once** — copying alone
+  does not register the service.
+- Host-free render test: `cmake --build build-fxplug --target lumakey-tiletest &&
+  ./build-fxplug/fxplug/lumakey-tiletest`
+- The service bundle extension is `.pluginkit`, NOT `.fxplug` — with `.fxplug` it
+  builds, signs and verifies and then silently never registers.
 
 ## OpenFX build
 - `source/ofx/LumaKeyOFX.cpp` is the same key on the CPU for Resolve/Nuke/Natron/Vegas;
