@@ -14,6 +14,8 @@
 #include "ofxsImageEffect.h"
 #include "ofxsProcessing.h"
 
+#include "../LumaKeyCore.h"
+
 namespace
 {
 constexpr const char* kPluginIdentifier = "com.stoatworks.lumakey";
@@ -30,22 +32,6 @@ constexpr const char* kPluginDescription =
 constexpr const char* kParamThreshold = "threshold";
 constexpr const char* kParamSoftness  = "softness";
 constexpr const char* kParamInvert    = "invert";
-
-/// The key itself, straight alpha in and out. Mirrors the fragment shader:
-/// smoothstep edge of width Softness centred on Threshold, flipped by Invert.
-inline float keyAlpha( float luma, float threshold, float softness, bool invert )
-{
-	const float halfEdge = std::max( softness, 0.0001f ) * 0.5f;
-	const float lo       = threshold - halfEdge;
-	const float hi       = threshold + halfEdge;
-
-	float t = ( luma - lo ) / ( hi - lo );
-	t       = std::min( std::max( t, 0.0f ), 1.0f );
-	// smoothstep
-	float k = t * t * ( 3.0f - 2.0f * t );
-
-	return invert ? 1.0f - k : k;
-}
 
 class LumaKeyProcessorBase : public OFX::ImageProcessor
 {
@@ -113,28 +99,10 @@ public:
 				float b = srcPix[ 2 ] / float( maxValue );
 				float a = nComponents == 4 ? srcPix[ 3 ] / float( maxValue ) : 1.0f;
 
-				float straightR = r, straightG = g, straightB = b;
-				if( premultiplied && a > 0.0f )
-				{
-					straightR = r / a;
-					straightG = g / a;
-					straightB = b / a;
-				}
-
-				// Rec. 709 perceptual luminance weights, as in the shader.
-				const float luma = 0.2126f * straightR + 0.7152f * straightG + 0.0722f * straightB;
-
-				const float outA = a * keyAlpha( luma, threshold, softness, invert );
-
-				float outR = straightR, outG = straightG, outB = straightB;
-				if( premultiplied )
-				{
-					// Re-premultiply and keep the result inside [0, alpha],
-					// mirroring the shader's clamp.
-					outR = std::min( straightR * outA, outA );
-					outG = std::min( straightG * outA, outA );
-					outB = std::min( straightB * outA, outA );
-				}
+				float outR, outG, outB, outA;
+				lumakey::keyPixel( r, g, b, a,
+								   threshold, softness, invert, premultiplied,
+								   outR, outG, outB, outA );
 
 				dstPix[ 0 ] = quantise( outR );
 				dstPix[ 1 ] = quantise( outG );
