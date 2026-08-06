@@ -27,12 +27,34 @@ The pixel work is covered by host-free tests in each repo, so the maths and the
 surface handling are not the suspects. What is unproven is the registration
 contract between the bundle and FCP.
 
-Unresolved at time of writing: FCP was restarted to rule out a cached effect
-list, but it sits for many minutes in "Scanning Audio Units" (1710 on this
-machine) before its main window appears. If a rescan is not the answer, the
-suspects are the `PlugInKit` / `ProPlugPlugInList` declaration needing more than
-Apple's own FxPlug 4 Xcode template provides, or FCP requiring a different
-registration path from Motion.
+**Ruled out so far** (each of these cost a full FCP restart; do not repeat them):
+
+- **Not a stale effect cache.** FCP was fully quit and relaunched, including a
+  complete Audio Units rescan (1710 units, ~35 minutes on this machine). The
+  Effects browser went from 358 to 1218 items, so the rescan genuinely
+  reloaded — and still no Stoatworks category and still 0 results.
+- **Not the PlugInKit version attribute.** Apple's own working entry
+  (`InternalFiltersXPC.pluginkit`) declares `Attributes.version = "2.0"`, while
+  Apple's FxPlug 4 Xcode template generates `Attributes.com.apple.version =
+  "1.1"`, which is what we shipped. Adding `version = 2.0` alongside it, re-signing
+  and re-registering changed nothing.
+- **Nothing is logged.** `log show` over the launch window, filtered on our
+  bundle ids, on "ProPlug", and on the pluginkit subsystem, returns nothing at
+  all. FCP is not complaining; it is silently not listing us.
+
+**Still to try**, roughly in order of likelihood:
+
+- **Notarization.** We sign with Developer ID but do not notarize. FCP may accept
+  a signed-but-unnotarized ProExtension far enough to launch its service while
+  refusing to list it. This is the cheapest remaining test and the best fit for
+  "loads but is silent".
+- The keys Apple's entry has and ours does not: `Dedicated`, `EmbeddedCode`,
+  `EmbeddedProtocol`. `FxPlugInternal` is clearly Apple-only, but the others may
+  not be.
+- Dynamic registration via `PROPlugInRegistering` (PluginManager.framework's
+  `registeredPlugInsWithError:`) instead of the static `ProPlugPlugInList`.
+- Whether Motion lists them even though FCP does not — that would separate "our
+  declaration is wrong" from "FCP wants something Motion doesn't".
 
 Everything below is measured on this machine unless it says otherwise.
 
