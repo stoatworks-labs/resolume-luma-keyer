@@ -41,17 +41,17 @@ harness in this repository.
 
 ## Download
 
-**[v1.2.0](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/tag/v1.2.0)** — prebuilt for macOS and Windows. Pick your platform:
+**[v1.3.0](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/tag/v1.3.0)** — prebuilt for macOS and Windows. Pick your platform:
 
 <details>
 <summary><b>macOS</b> — Universal (Apple Silicon + Intel)</summary>
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.2.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.2.0/luma-key-1.2.0-macos-universal.dmg) | 186 KB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 144 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 354 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 212 KB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.3.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.3.0/luma-key-1.3.0-macos-universal.dmg) | 166 KB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 128 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 337 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 200 KB |
 
 </details>
 
@@ -60,7 +60,7 @@ harness in this repository.
 
 | Build | Download | Size |
 | --- | --- | --- |
-| x64 · .exe installer | [`luma-key-1.2.0-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.2.0/luma-key-1.2.0-windows-x86_64-setup.exe) | 204 KB |
+| x64 · .exe installer | [`luma-key-1.3.0-windows-x86_64-setup.exe`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.3.0/luma-key-1.3.0-windows-x86_64-setup.exe) | 204 KB |
 | x64 · .zip archive | [`luma-key-windows-x86_64.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-windows-x86_64.zip) | 95 KB |
 | x64 · .zip archive (After Effects & Premiere) | [`luma-key-adobe-windows-x86_64.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-windows-x86_64.zip) | 75 KB |
 | x64 · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-windows-x86_64.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-windows-x86_64.zip) | 52 KB |
