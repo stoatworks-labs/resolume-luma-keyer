@@ -48,10 +48,10 @@ harness in this repository.
 
 | Build | Download | Size |
 | --- | --- | --- |
-| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.3.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.3.0/luma-key-1.3.0-macos-universal.dmg) | 166 KB |
-| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 128 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 337 KB |
-| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 200 KB |
+| Universal (Apple Silicon + Intel) · .dmg disk image | [`luma-key-1.3.0-macos-universal.dmg`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/download/v1.3.0/luma-key-1.3.0-macos-universal.dmg) | 187 KB |
+| Universal (Apple Silicon + Intel) · .zip archive | [`luma-key-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-macos-universal.zip) | 144 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (After Effects & Premiere) | [`luma-key-adobe-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-adobe-macos-universal.zip) | 354 KB |
+| Universal (Apple Silicon + Intel) · .zip archive (OpenFX — Resolve, Vegas, Nuke) | [`luma-key-ofx-macos-universal.zip`](https://github.com/stoatworks-labs/resolume-luma-keyer/releases/latest/download/luma-key-ofx-macos-universal.zip) | 212 KB |
 
 </details>
 
