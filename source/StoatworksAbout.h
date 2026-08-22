@@ -20,7 +20,7 @@ namespace stoatworks::about
     inline constexpr auto guide = "https://stoatworks-labs.com/software/resolume-luma-keyer/guide/";
     inline constexpr auto page = "https://stoatworks-labs.com/software/resolume-luma-keyer/";
     inline constexpr auto repo = "https://github.com/stoatworks-labs/resolume-luma-keyer";
-    inline constexpr auto versionFallback = "v1.3.0";
+    inline constexpr auto versionFallback = "v1.3.2";
 
     inline constexpr auto org = "Stoatworks Labs";
     inline constexpr auto home = "https://stoatworks-labs.com";
