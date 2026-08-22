@@ -7,8 +7,9 @@ it — so dark areas of a clip become transparent and let lower layers show thro
 quick way to key a black background, tame add-blend-style content, or pull a shadow or highlight
 matte, without needing a dedicated key colour.
 
-> **Status:** released at v1.0.1, and **run inside Resolume on real content**. Needs Resolume
-> Arena or Avenue **7.3.1 or newer**. The before/after image below is rendered with the plugin's
+> **Status:** released at v1.3.2, and **run inside Resolume on real content**. Needs Resolume
+> Arena or Avenue **7.3.1 or newer**. The same key now also builds for OpenFX hosts and for
+> After Effects and Premiere Pro — see below for where each one goes. The before/after image below is rendered with the plugin's
 > exact shader maths rather than captured from Resolume.
 
 ---
@@ -25,13 +26,34 @@ Windows  %USERPROFILE%\Documents\Resolume Arena\Extra Effects\
 Avenue uses the same layout under its own folder name. It appears in the effects list as
 **Luma Key**.
 
-The builds are unsigned, so macOS and Windows each warn once on first use — see
-[UNSIGNED.md](UNSIGNED.md) for the one-time fix. On macOS, note that **approving the outer bundle
-does not clear quarantine on what is nested inside it**:
+There is also a **macOS disk image** and a **Windows installer** in the release, which put the
+plugin where the host looks without you copying anything.
 
-```bash
-xattr -dr com.apple.quarantine ~/Documents/Resolume\ Arena/Extra\ Effects/LumaKey.bundle
+**The macOS builds are Developer ID-signed and notarised** — FFGL, OpenFX and Adobe alike — so
+there is nothing to clear and no `xattr` step. **The Windows builds are not code-signed.** Plugin
+files are not gated the way `.exe` files are, so a host loads them normally; it is only the
+*installer* that trips SmartScreen, once: **More info** → **Run anyway**. Checksums and the
+per-artefact detail are in [UNSIGNED.md](UNSIGNED.md).
+
+### After Effects and Premiere Pro — beta
+
+The same key builds as an After Effects plugin, which Premiere Pro loads too. Take the
+`luma-key-adobe-*` zip for your platform and copy the plugin into the shared Adobe folder, then
+restart the host:
+
 ```
+macOS    /Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/   (LumaKey.plugin)
+Windows  C:\Program Files\Adobe\Common\Plug-ins\7.0\MediaCore\            (LumaKey.aex)
+```
+
+That folder is root-owned on macOS, so the copy needs an administrator password. The effect
+appears under **Effects → Stoatworks → Luma Key**.
+
+It is called beta because it is the newest of the builds, not because the maths differs — the key
+is the same and the bundle is verified, it has simply had less time in real hosts than the FFGL
+and OpenFX builds have. One thing worth knowing if a result looks inverted in the two hosts:
+Premiere's legacy render path hands over pixels as BGRA where After Effects uses ARGB, and the
+plugin swaps its luminance weights to match, so the two agree.
 
 ### OpenFX hosts (Resolve, Vegas, Nuke, Natron)
 
