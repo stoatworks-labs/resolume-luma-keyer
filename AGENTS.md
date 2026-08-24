@@ -116,3 +116,10 @@ The page is emphatic that it is not the plugin, and lists what it does not
 reproduce in a disclosure at the foot. Keep that: it is a port, so nothing on it
 is evidence about the plugin, and the offline harness in this repository is
 still the only thing that measures anything.
+
+## Notes
+
+`docs/NOTES.md` carries this repo's working notes — current status, decisions
+already made, and the traps that have actually bitten. Read it before changing
+anything non-obvious. Cross-cutting fleet knowledge lives in
+[fleet-notes](https://github.com/stoatworks-labs/fleet-notes).
