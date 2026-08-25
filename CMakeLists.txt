@@ -17,6 +17,14 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# The FFGL plugin, the FFGL SDK submodule and GLEW are one dependency group,
+# and the OpenFX plugin belongs to none of it. Turning this OFF builds the OFX
+# plugin alone, with no GL loader anywhere in the configure -- which is what
+# the Linux job does, because the FFGL SDK has no Linux path, and GLEW would
+# otherwise have to be installed to build something that never calls it.
+option(LUMAKEY_BUILD_FFGL "Build the FFGL plugin (needs the FFGL SDK and, off macOS, GLEW)" ON)
+
+if(LUMAKEY_BUILD_FFGL)
 # ---------------------------------------------------------------------------
 # Pull in the Resolume FFGL SDK. It lives as a git submodule under external/
 # and builds a static ffgl::sdk target with its example plugins disabled.
@@ -67,6 +75,8 @@ if(APPLE)
         "-framework AppKit"
     )
 endif()
+
+endif()  # LUMAKEY_BUILD_FFGL
 
 # ---------------------------------------------------------------------------
 # The OpenFX build of the same effect, for Resolve/Nuke/Natron/Vegas. CPU
@@ -154,7 +164,9 @@ elseif(APPLE)
         CACHE PATH "" FORCE)
 endif()
 
+if(LUMAKEY_BUILD_FFGL)
 install(TARGETS LumaKey
     LIBRARY DESTINATION "."
     BUNDLE  DESTINATION "."
 )
+endif()  # LUMAKEY_BUILD_FFGL
