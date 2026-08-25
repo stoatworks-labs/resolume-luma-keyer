@@ -57,7 +57,7 @@ if(APPLE)
         OUTPUT_NAME "LumaKey"
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Info.plist.in"
         MACOSX_BUNDLE_BUNDLE_NAME "Luma Key"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "com.allansargeant.ffgl.lumakey"
+        MACOSX_BUNDLE_GUI_IDENTIFIER "com.stoatworks.ffgl.lumakey"
         MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
     )
     # FFGL hosts resolve plugMain by symbol name, so keep default visibility.
