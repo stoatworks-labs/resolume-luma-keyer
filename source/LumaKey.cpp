@@ -24,7 +24,7 @@ static CFFGLPluginInfo PluginInfo(
 	1,                               // Plugin major version number
 	0,                               // Plugin minor version number
 	FF_EFFECT,                       // Plugin type
-	"Keys out pixels by luminance",  // Plugin description
+	"Keys out pixels by luminance.\n\nIt measures the perceptual (Rec. 709) luminance of each pixel and drives that pixel's alpha from it, so dark or bright areas become transparent and let lower layers show through.\n\nA quick way to key a black background, handle add-blend-style content, or pull a shadow or highlight matte without a dedicated key colour.",// Plugin description
 	"Luma Key FFGL effect"           // About
 );
 
