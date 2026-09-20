@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 project(ResolumeLumaKey
-    VERSION 1.3.5
+    VERSION 1.3.6
     LANGUAGES CXX
 )
 
