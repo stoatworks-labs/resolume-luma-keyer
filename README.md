@@ -34,9 +34,9 @@ composited over a checkerboard so you can see what's being taken out.
 
 It's a port, so it isn't evidence about the plugin: a browser isn't Resolume,
 GLSL ES 3.00 isn't desktop GL 4.1 core, and nothing on that page measures
-anything. The page says all that itself, in a disclosure at the foot. The
-numbers worth trusting are in [Status](#status) and come from the offline
-harness in this repository.
+anything. The page says all that itself, in a disclosure at the foot. What's
+been checked on the plugin is in the status note at the top of the
+[user guide](docs/USER-GUIDE.md).
 
 <!-- downloads:start -->
 

@@ -7,7 +7,7 @@ alpha from it, so dark areas of a clip go transparent and let the layers below s
 It's the quick way to key out a black background, tame add-blend-style content, or pull a shadow
 or highlight matte, without needing a dedicated key colour.
 
-> **Status:** released at v1.3.4, and it's been **run inside Resolume on real content**. It needs
+> **Status:** released at v1.3.6, and it's been **run inside Resolume on real content**. It needs
 > Resolume Arena or Avenue **7.3.1 or newer**. The same key now also builds for OpenFX hosts and
 > for After Effects and Premiere Pro; see below for where each one goes. The before/after image
 > below is rendered with the plugin's own shader maths rather than captured from Resolume.
