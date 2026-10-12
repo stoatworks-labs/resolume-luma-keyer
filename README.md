@@ -1,39 +1,40 @@
 # Luma Key — Resolume FFGL plugin
 
 > **AI-assisted project.** This codebase was created with [Claude](https://claude.com/claude-code)
-> (Anthropic), directed and reviewed by a human author. It is a small plugin —
-> one GLSL fragment shader whose whole method is written out in
+> (Anthropic), directed and reviewed by a human author. It's a small plugin, one
+> GLSL fragment shader whose whole method is written out in
 > [How it works](#how-it-works), so you can read what it does to a pixel rather
-> than take it on trust. Try it in your browser before installing anything.
+> than take it on trust. Try it in your browser before you install anything.
 
-A simple luminance keyer effect for [Resolume](https://resolume.com) Arena / Avenue,
+A simple luminance keyer for [Resolume](https://resolume.com) Arena and Avenue,
 built on the official [Resolume FFGL SDK](https://github.com/resolume/ffgl).
 
 It measures the perceptual (Rec. 709) luminance of each pixel and drives that
-pixel's alpha from it, so dark (or bright) areas of an incoming clip become
-transparent and let lower layers show through — a quick way to key black
-backgrounds, add-blend-style content, or shadow/highlight mattes without a
-dedicated key colour.
+pixel's alpha from it, so dark (or bright) areas of an incoming clip go
+transparent and let the layers below show through. It's a quick way to key out
+black backgrounds, add-blend-style content, or shadow and highlight mattes without
+a dedicated key colour, which is handy given how much content still turns up on black.
 
 ![Before/after: colourful clip on a black background, and the same clip with the black keyed to transparency (soft edge) over a checkerboard](docs/demo-before-after.png)
 
-*Rendered with the plugin's exact shader math (Rec. 709 luma → `smoothstep` key)
-at the default Threshold 0.15 / Softness 0.10 — not a Resolume screen capture.*
+*Rendered with the plugin's own shader maths (Rec. 709 luma → `smoothstep` key)
+at the default Threshold 0.15 / Softness 0.10, rather than captured from Resolume.*
 
 ## Try it in your browser
 
 **<https://resolume-luma-keyer-demo.stoatworks-labs.com>**
 
-Not the plugin — the GLSL from `source/LumaKey.cpp`, copied across unedited and run in
-WebGL2 over clips generated in the page, with the parameters this plugin's
-constructor declares and the conversions its own code applies. No install, and
-nothing you load leaves your machine.
+It isn't the plugin: it's the GLSL from `source/LumaKey.cpp`, copied across unedited and run
+in WebGL2 over clips generated in the page, with the parameters this plugin's
+constructor declares and the conversions its own code applies. There's nothing to install,
+and nothing you load leaves your machine.
 
-Drag Threshold and Softness over a few clips and watch the key move, with the transparency composited over a checkerboard so you can see exactly what is being taken out.
+Drag Threshold and Softness over a few clips and watch the key move, with the transparency
+composited over a checkerboard so you can see what's being taken out.
 
-It is a port, so it is not evidence about the plugin: a browser is not Resolume,
-GLSL ES 3.00 is not desktop GL 4.1 core, and nothing on that page measures
-anything. The page says all of that itself, in a disclosure at the foot. The
+It's a port, so it isn't evidence about the plugin: a browser isn't Resolume,
+GLSL ES 3.00 isn't desktop GL 4.1 core, and nothing on that page measures
+anything. The page says all that itself, in a disclosure at the foot. The
 numbers worth trusting are in [Status](#status) and come from the offline
 harness in this repository.
 
@@ -93,15 +94,15 @@ macOS    /Library/Application Support/Adobe/Common/Plug-ins/7.0/MediaCore/   (Lu
 Windows  C:\Program Files\Adobe\Common\Plug-ins\7.0\MediaCore\            (LumaKey.aex)
 ```
 
-It appears under Effects → Stoatworks → Luma Key. Beta because it is the
-newest of the builds: the maths is the same and the bundle is verified, but it
-has had less time in real hosts than the FFGL and OpenFX builds have.
+It shows up under Effects → Stoatworks → Luma Key. It's a beta because it's the
+newest of the builds: the maths is the same and the bundle is verified, but it's
+had less time in real hosts than the FFGL and OpenFX builds have.
 
 ## OpenFX — Resolve, Vegas, Nuke, Natron
 
 The same effect also builds as an OpenFX plugin, so it runs in DaVinci Resolve
-(Edit and Color pages, and Fusion), Vegas Pro, Nuke and Natron. It is
-the same key, byte for byte — the CPU maths mirrors the GLSL and is tested against it.
+(Edit and Color pages, and Fusion), Vegas Pro, Nuke and Natron. It's
+the same key, byte for byte: the CPU maths mirrors the GLSL and is tested against it.
 
 Grab the `luma-key-ofx-*` zip for your platform from the release and copy
 `LumaKey.ofx.bundle` into the standard OpenFX folder, then restart the host:
@@ -166,13 +167,13 @@ By default this copies the bundle to:
 ~/Documents/Resolume Arena/Extra Effects/
 ```
 
-Point it elsewhere (e.g. Avenue, or a shared location) with:
+Point it somewhere else (Avenue, say, or a shared location) with:
 
 ```sh
 cmake --install build --prefix "$HOME/Documents/Resolume Avenue/Extra Effects"
 ```
 
-Restart Resolume, then find **Luma Key** under the **Effects** panel (search
+Restart Resolume, then find **Luma Key** in the **Effects** panel (search
 "Luma"). Drag it onto a clip or layer.
 
 ## Project layout
@@ -201,12 +202,12 @@ block near the top of `LumaKey.cpp` (the ID must be a unique 4-character string)
 
 ## Windows SmartScreen
 
-The released macOS plugins — FFGL, OFX and the Adobe build — are **Developer
+The released macOS plugins (FFGL, OFX and the Adobe build) are **Developer
 ID-signed and notarised by Apple**, so your host loads them with no quarantine
-step and no failed validation. The Windows builds are not code-signed.
+step and no failed validation. The Windows builds aren't code-signed.
 
-- **macOS** — nothing to do. Copy the bundle into place and rescan.
-- **Windows** — plugin files aren't gated the way `.exe` files are, so your host loads
+- **macOS:** nothing to do. Copy the bundle into place and rescan.
+- **Windows:** plugin files aren't gated the way `.exe` files are, so your host loads
   them normally. The **installer** trips SmartScreen: **More info** → **Run anyway**.
 
 Per-artifact steps, self-signing and checksum verification:
