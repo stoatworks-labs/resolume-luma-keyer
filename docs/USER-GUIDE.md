@@ -24,7 +24,7 @@ Windows  %USERPROFILE%\Documents\Resolume Arena\Extra Effects\
 ```
 
 Avenue uses the same layout under its own folder name. It shows up in the effects list as
-**Luma Key**.
+**SW Luma Key**.
 
 There's also a **macOS disk image** and a **Windows installer** in the release, which put the
 plugin where the host looks without you copying anything.

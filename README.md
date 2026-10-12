@@ -102,7 +102,8 @@ had less time in real hosts than the FFGL and OpenFX builds have.
 
 The same effect also builds as an OpenFX plugin, so it runs in DaVinci Resolve
 (Edit and Color pages, and Fusion), Vegas Pro, Nuke and Natron. It's
-the same key, byte for byte: the CPU maths mirrors the GLSL and is tested against it.
+the same key: the CPU maths mirrors the GLSL, though the two are kept in step by hand and
+nothing here tests one against the other.
 
 Grab the `luma-key-ofx-*` zip for your platform from the release and copy
 `LumaKey.ofx.bundle` into the standard OpenFX folder, then restart the host:
@@ -173,7 +174,7 @@ Point it somewhere else (Avenue, say, or a shared location) with:
 cmake --install build --prefix "$HOME/Documents/Resolume Avenue/Extra Effects"
 ```
 
-Restart Resolume, then find **Luma Key** in the **Effects** panel (search
+Restart Resolume, then find **SW Luma Key** in the **Effects** panel (search
 "Luma"). Drag it onto a clip or layer.
 
 ## Project layout
