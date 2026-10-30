@@ -23,7 +23,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - { name: macos-universal, os: macos-14,       artifact: LumaKey.bundle }
+          - { name: macos-universal, os: macos-15,       artifact: LumaKey.bundle }
           - { name: windows-x86_64,  os: windows-latest, artifact: LumaKey.dll }
     steps:
       - uses: actions/checkout@v7
