@@ -15,6 +15,8 @@ transparent and let the layers below show through. It's a quick way to key out
 black backgrounds, add-blend-style content, or shadow and highlight mattes without
 a dedicated key colour, which is handy given how much content still turns up on black.
 
+The [project page](https://stoatworks-labs.com/software/resolume-luma-keyer/) has the downloads and the [user guide](https://stoatworks-labs.com/software/resolume-luma-keyer/guide/).
+
 ![Before/after: colourful clip on a black background, and the same clip with the black keyed to transparency (soft edge) over a checkerboard](docs/demo-before-after.png)
 
 *Rendered with the plugin's own shader maths (Rec. 709 luma → `smoothstep` key)
